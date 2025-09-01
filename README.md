@@ -84,7 +84,7 @@ sudo systemctl start antimaksbot.service
 
 если же бот не запустился на данном этапе, проверить его состояние можно командой 
 ```
-sudo systemctl status asbot.service
+sudo systemctl status antimaksbot.service
 ```
 в случае неудачи будут выведены коды ошибок. 
 
