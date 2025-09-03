@@ -16,7 +16,7 @@ async def parse_msg(msgs: dict, userfilter: list, last_msg_id: int, wss: ClientC
                 text_messages.extend(await parse_attaches(msg, wss, chat_id))
     if "message" in msgs["payload"]:
         msg = msgs["payload"]["message"]
-        if (not userfilter or msg["sender"] in userfilter) and int(msg["id"]) > int(last_msg_id):
+        if (not userfilter or msg["sender"] in userfilter) and int(msg["id"]) > int(last_msg_id) and int(msgs["payload"]["chatId"]) == chat_id:
             text = msg["text"]
             text_messages.append(text)
             last_msg_id = int(msg["id"])
