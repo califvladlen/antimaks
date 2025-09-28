@@ -26,12 +26,15 @@ async def start(message):
 if __name__ == "__main__":
     if "bot_mem" not in os.listdir():
         open("bot_mem", "w").close()
-    if "first.json" not in os.listdir() or "second.json" not in os.listdir() or "bot_settings.json" not in os.listdir():
+    if "first.json" not in os.listdir() or "second.json" not in os.listdir() or "bot_settings.json" not in os.listdir() or "header.json" not in os.listdir():
         print("Внимание! Необходимо прописать начальные сообщения! Как и откуда взять необходимые данные смотреть тут:")
         open("first.json", "w").close()
         open("second.json", "w").close()
         with open("bot_settings.json", "w") as settings_file:
             settings_file.write('{\n"token": "",\n"admins": [""],\n"from_chat_id": "",\n"userfilter": [],\n"requests_domen": ""\n}')
+        with open("header.json", "w") as headers:
+            headers.write(
+                '{\n"Host": "",\n"Connection": "",\n"Pragma": "",\n"Cache-Control": "",\n"User-Agent": "",\n"Upgrade": "",\n"Origin": "",\n"Sec-WebSocket-Version": "",\n"Accept-Encoding": "",\n"Accept-Language": "",\n"Sec-WebSocket-Key": "",\n"Sec-WebSocket-Extensions": ""\n}')
         exit(0)
     with open("bot_settings.json") as settings_file:
         bot_token = json.load(settings_file)["token"]

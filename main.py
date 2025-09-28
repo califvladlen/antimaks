@@ -8,8 +8,8 @@ from parser import parse_msg
 
 dp = Dispatcher()
 
-async def run_bot(first_msg, second_msg, from_chat_id, userfilter, request_domen):
-    tasks = [dp.start_polling(bot), parse_wss(first_msg, second_msg, from_chat_id, userfilter, request_domen)]
+async def run_bot(first_msg, second_msg, head, from_chat_id, userfilter, request_domen):
+    tasks = [dp.start_polling(bot), parse_wss(first_msg, second_msg, head, from_chat_id, userfilter, request_domen)]
     await asyncio.gather(*tasks)
 
 @dp.message(Command("start"))
@@ -42,14 +42,16 @@ def main():
         from_chat_id = settings_file["from_chat_id"]
         userfilter = settings_file["userfilter"]
         request_domen = settings_file["requests_domen"]
+    with open("header.json") as header:
+        head = json.load(header)
     bot = Bot(bot_token)
-    asyncio.run(run_bot(first_msg, second_msg, from_chat_id, userfilter, request_domen))
+    asyncio.run(run_bot(first_msg, second_msg, head, from_chat_id, userfilter, request_domen))
 
 
 
-async def parse_wss(first_msg, second_msg, from_chat_id, userfilter, request_domen):
+async def parse_wss(first_msg, second_msg, head, from_chat_id, userfilter, request_domen):
     try:
-        async with websockets.connect(request_domen) as wss:
+        async with websockets.connect(request_domen, additional_headers=head) as wss:
             await wss.send(json.dumps(first_msg))
             res = await wss.recv()
             print(res)
