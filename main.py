@@ -75,6 +75,8 @@ async def parse_wss(first_msg, second_msg, head, from_chat_id, userfilter, reque
                 res = await wss.recv()
                 res = json.loads(res)
                 print(res)
+                if "message" in res["payload"]:
+                    continue
                 meseges = await parse_msg(res, userfilter, last_msg, wss, int(from_chat_id))
                 with open("bot_mem", "r") as bot_mem:
                     to_chat = int(bot_mem.readlines()[0].rstrip("\n"))
